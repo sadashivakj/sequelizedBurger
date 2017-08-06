@@ -3,7 +3,9 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var methodOverride = require("method-override")
 var exphbs = require("express-handlebars");
-var routes = require("./controllers/burgers_controller.js");
+var routes = require("./routes/api-burger-routes.js");
+
+var db = require("./models");
 
 var app = express();
 
@@ -22,6 +24,8 @@ app.set("view engine", "handlebars");
 // Give server access to our routes
 app.use("/", routes);
 
-app.listen(PORT, function(){
-	console.log("Welcome to Eat Da Burger Application Server Side. Listening to PORT - " + PORT);
+db.sequelize.sync().then(function(){
+	app.listen(PORT, function(){
+		console.log("Welcome to Eat Da Burger Sequelize Application Server Side. Listening to PORT  " + PORT);
+	});
 });
